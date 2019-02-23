@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateUniqPass", "CreateUniqPass\CreateUniqPass.csproj", "{ECF8D60B-5594-48DF-8F5A-BA93CF3F417B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECF8D60B-5594-48DF-8F5A-BA93CF3F417B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF8D60B-5594-48DF-8F5A-BA93CF3F417B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF8D60B-5594-48DF-8F5A-BA93CF3F417B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF8D60B-5594-48DF-8F5A-BA93CF3F417B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {49D01122-9C49-434D-ADA8-C69FA0BF85DF}
+	EndGlobalSection
+EndGlobal
