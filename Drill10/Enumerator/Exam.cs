@@ -88,7 +88,7 @@ namespace Enumerator
 
         public void Reset()
         {
-            index = -2;
+            index = 0;
         }
     }
 }
