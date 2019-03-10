@@ -9,7 +9,7 @@ namespace CopyVideo
     class Home
     {
        static int cursor = 1;
-        public static void HomePage(string Adress)
+        public static void HomePage()
         {
             Console.CursorVisible = false;
             Drive d = new Drive();
@@ -31,33 +31,52 @@ namespace CopyVideo
                 case ConsoleKey.Enter:
                     if (Console.CursorTop == 1)
                     {
-                        DirectoryInfo di = new DirectoryInfo(Adress);
-                        DirectoryInfo[] direct = di.GetDirectories();
-                        FileInfo[] f = di.GetFiles();
-                        DriveInfo[] drive = DriveInfo.GetDrives();
-                        for (int i = 0; i < drive.Length; i++)
+                       
+                        if (File.Exists("CopyLocation.txt"))
                         {
-                            if (drive[i].IsReady)
+                            StreamReader sr = new StreamReader("CopyLocation.txt");
+                            DirectoryInfo di = new DirectoryInfo(Convert.ToString(sr.ReadLine()));
+                            DirectoryInfo[] direct = di.GetDirectories();
+                            FileInfo[] f = di.GetFiles();
+                            DriveInfo[] drive = DriveInfo.GetDrives();
+                            for (int i = 0; i < drive.Length; i++)
                             {
-                                if (Convert.ToString(drive[i].DriveType) == "Removable")
+                                if (drive[i].IsReady)
                                 {
-                                    for (int j = 0; j < f.Length; j++)
+                                    if (Convert.ToString(drive[i].DriveType) == "Removable")
                                     {
-                                        if ((f[j].LastWriteTime).Year == DateTime.Now.Year)
+                                        for (int j = 0; j < f.Length; j++)
                                         {
-                                            if ((f[j].LastWriteTime).Month == DateTime.Now.Month)
+                                            if ((f[j].LastWriteTime).Year == DateTime.Now.Year)
                                             {
-                                                if ((f[j].LastWriteTime).Day == DateTime.Now.Day)
+                                                if ((f[j].LastWriteTime).Month == DateTime.Now.Month)
                                                 {
-                                                    File.Copy(Convert.ToString(f[j].FullName), $"{Convert.ToString(drive[i])}" +
-                                                        $"\\{f[j].Name}",true);
+                                                    if ((f[j].LastWriteTime).Day == DateTime.Now.Day)
+                                                    {
+                                                        File.Copy(Convert.ToString(f[j].FullName), $"{Convert.ToString(drive[i])}" +
+                                                            $"\\{f[j].Name}", true);
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        } 
+                        }
+                        else
+                        {
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.Clear();
+
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.SetCursorPosition(49, 10);
+                            Console.WriteLine(" Not Found Adress");
+                            Console.SetCursorPosition(49, 12);
+                            Console.WriteLine("Please Set Adress");
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.ReadKey();
+                            HomePage();
+                        }
                     }
                     if (Console.CursorTop == 3)
                     {
@@ -89,7 +108,7 @@ namespace CopyVideo
                     }
                     break;
             }
-            HomePage(Adress);
+            HomePage();
         }
         public void Destination()
         {

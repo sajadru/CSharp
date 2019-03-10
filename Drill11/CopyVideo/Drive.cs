@@ -27,7 +27,7 @@ namespace CopyVideo
                 }
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.SetCursorPosition(4, d.Length);
-                Console.WriteLine("Exit");
+                Console.WriteLine("Back");
                 Console.ForegroundColor = ConsoleColor.Gray;
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(1, cursor);

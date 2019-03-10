@@ -35,7 +35,7 @@ namespace CopyVideo
             }
             Console.ForegroundColor = ConsoleColor.Red;
             Console.SetCursorPosition(4, d.Length+f.Length);
-            Console.WriteLine("Exit");
+            Console.WriteLine("Back");
             Console.ForegroundColor = ConsoleColor.Gray;
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -51,7 +51,11 @@ namespace CopyVideo
                 case ConsoleKey.Enter:
                     if (Console.CursorTop == (d.Length + f.Length+1))
                     {
-                        Home.HomePage(x);
+                            File.Delete("CopyLocation.txt");
+                            StreamWriter sw = new StreamWriter("CopyLocation.txt");
+                            sw.Write(Convert.ToString(x));
+                            sw.Close();
+                            Home.HomePage();
                     }
             
                     if (Console.CursorTop == d.Length+f.Length)

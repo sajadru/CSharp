@@ -12,8 +12,7 @@ namespace CopyVideo
         
         static void Main(string[] args)
         {
-            Home.HomePage("");
-           
+            Home.HomePage();
         }
     }
 }
