@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace Library
 {
     class HomePage
     {
-        public void list()
-        {     int A =0;
+        public void List()
+        {
+
+            SqlConnection connection = new SqlConnection("server=.;database= Library;integrated security=true");
+            
+              
+           
+               
+            
+           
             DynamicArray d = new DynamicArray();
             Cursor c = new Cursor();
             int cursor = 10;
@@ -48,8 +57,7 @@ namespace Library
                         {
                             case 10:
                              
-                                if (A>0)
-                                {
+                               
                                     Console.Clear();
                                     Console.ForegroundColor = ConsoleColor.Black;
                                 c.Cur(15, 1);
@@ -63,31 +71,27 @@ namespace Library
                                 c.Cur(99, 1);
                                 Console.Write("Year");
                                     Console.ForegroundColor = ConsoleColor.White;
-                                    for (int i = 0; i < fact.Length ; i++)
+                                SqlCommand command = new SqlCommand("SELECT * FROM Book", connection);
+                                command.Connection.Open();
+                                SqlDataReader read = command.ExecuteReader();
+                                  
+                                    for (int i = 0; read.Read(); i+=2)
                                     {
                                         c.Cur(13, i + 3);
-                                        Console.WriteLine(Book.Name);
+                                        Console.WriteLine(read["Name"]);
                                         c.Cur(32, i + 3);
-                                        Console.WriteLine(Book.Isbn);
+                                        Console.WriteLine(read["ISBN"]);
                                         c.Cur(53, i + 3);
-                                        Console.WriteLine(Book.Author);
+                                        Console.WriteLine(read["Author"]);
                                         c.Cur(74, i + 3);
-                                        Console.WriteLine(Book.Publisher);
+                                        Console.WriteLine(read["Publisher"]);
                                         c.Cur(96, i + 3);
-                                        Console.WriteLine(Book.Year);
+                                        Console.WriteLine(read["Year"]);
                                     }
                                     Console.ReadKey();
+                                command.Connection.Close();
                                     
-                                }
-                                else
-                                {
-                                    Console.Clear();
-                                    c.Cur(49,6);
-                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                    Console.WriteLine("Library is empty;");
-                                    Console.ResetColor();
-                                    Console.ReadKey();
-                                }
+                          
                                 break;
                             case 12:
                                 Console.Clear();
@@ -103,9 +107,10 @@ namespace Library
                                 c.Cur(99, 1);
                                 Console.Write("Year");
                                 Console.ForegroundColor = ConsoleColor.White;
-                                for (int i = fact.Length-1; i <= fact.Length; i++)
+                                
+                                for (int i = fact.Length - 1; i <= fact.Length; i++)
                                 {
-                                  
+
                                     c.Cur(13, 3);
                                     Book.Name = (Console.ReadLine());
 
@@ -119,7 +124,7 @@ namespace Library
                                     Book.Year = (Convert.ToDateTime(Console.ReadLine()));
                                     fact[i] = b;
                                     //d.AddArray(ref fact);
-                                    A += 1;
+                                    Book.Mapper();
                                     break;
                                 }
                                 break;
@@ -132,8 +137,7 @@ namespace Library
                                 break;
                             case 16:
 
-                                if (A > 0)
-                                {
+                               
                                     int cursorD = 3;
                                     bool D = true;
                                     while (D)
@@ -151,21 +155,28 @@ namespace Library
                                         c.Cur(99, 1);
                                         Console.Write("Year");
                                         Console.ForegroundColor = ConsoleColor.White;
-                                        for (int i = 0; i < fact.Length - 1; i++)
-                                        {
-                                            c.Cur(13, i + 3);
-                                            Console.Write(Book.Name);
-                                            c.Cur(32, i + 3);
-                                            Console.Write(Book.Isbn);
-                                            c.Cur(53, i + 3);
-                                            Console.Write(Book.Author);
-                                            c.Cur(74, i + 3);
-                                            Console.Write(Book.Publisher);
-                                            c.Cur(96, i + 3);
-                                            Console.Write(Book.Year);
-                                        }
-                               
-                                            c.Cur(1, cursorD);
+                                    SqlCommand command2 = new SqlCommand("SELECT * FROM Book", connection);
+                                    command2.Connection.Open();
+                                    SqlDataReader read2 = command2.ExecuteReader();
+                                    int num = 0;
+                                    for (int i = 0; read2.Read(); i+=2)
+                                    {
+                                        c.Cur(13, i + 3);
+                                        Console.WriteLine(read2["Name"]);
+                                        c.Cur(32, i + 3);
+                                        Console.WriteLine(read2["ISBN"]);
+                                        c.Cur(53, i + 3);
+                                        Console.WriteLine(read2["Author"]);
+                                        c.Cur(74, i + 3);
+                                        Console.WriteLine(read2["Publisher"]);
+                                        c.Cur(96, i + 3);
+                                        Console.WriteLine(read2["Year"]);
+                                        num = num + 2;
+                                    }
+                                   
+                                    command2.Connection.Close();
+
+                                    c.Cur(1, cursorD);
                                             Console.ForegroundColor = ConsoleColor.Red;
                                             Console.Write("DELETE");
                                             Console.ForegroundColor = ConsoleColor.White;
@@ -182,7 +193,7 @@ namespace Library
                                                     Console.WriteLine("Library is empty;");
                                                     Console.ResetColor();
                                                     Console.ReadKey();
-                                                    A = 0;
+                                                   
                                                 }
                                                 else
                                                 {
@@ -206,37 +217,29 @@ namespace Library
                                                 case ConsoleKey.UpArrow:
                                                     if (Console.CursorTop == 3)
                                                     {
-                                                        cursorD = fact.Length + 2;
+                                                cursorD = num + 1;
                                                     }
                                                     else
                                                     {
-                                                        cursorD -= 1;
+                                                        cursorD -= 2;
                                                     }
                                                     break;
                                                 case ConsoleKey.DownArrow:
-                                                    if (Console.CursorTop == fact.Length + 1)
+                                                    if (Console.CursorTop == num + 1)
                                                     {
                                                         cursorD = 3;
                                                     }
                                                     else
                                                     {
-                                                        cursorD += 1;
+                                                        cursorD += 2;
                                                     }
                                                     break;
                                             }
 
                                         } 
                                       
-                                }
-                                else
-                                {
-                                    Console.Clear();
-                                    c.Cur(49, 6);
-                                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                                    Console.WriteLine("Library is empty;");
-                                    Console.ResetColor();
-                                    Console.ReadKey();
-                                }
+                                
+                           
                                 break;
                             case 18:
                                 t = false;

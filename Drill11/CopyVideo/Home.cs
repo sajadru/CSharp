@@ -53,8 +53,30 @@ namespace CopyVideo
                                                 {
                                                     if ((f[j].LastWriteTime).Day == DateTime.Now.Day)
                                                     {
-                                                        File.Copy(Convert.ToString(f[j].FullName), $"{Convert.ToString(drive[i])}" +
-                                                            $"\\{f[j].Name}", true);
+                                                        if (f[j].Length< drive[i].TotalFreeSpace)
+                                                        {
+                                                            File.Copy(Convert.ToString(f[j].FullName), $"{Convert.ToString(drive[i])}" +
+                                                                                                                      $"\\{f[j].Name}", true);
+
+                                                            Console.Clear();
+                                                            Console.SetCursorPosition(48, 13);
+                                                            Console.ForegroundColor = ConsoleColor.Green;
+                                                            Console.WriteLine("Transfer successfully :)");
+                                                            Console.ForegroundColor = ConsoleColor.Gray;
+                                                            Console.ReadKey();
+                                                            Home.HomePage();
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.Clear();
+                                                            Console.SetCursorPosition(45, 13);
+                                                            Console.ForegroundColor = ConsoleColor.Red;
+                                                            Console.WriteLine("Storage space is not enough!");
+                                                            Console.ForegroundColor = ConsoleColor.Gray;
+                                                            Console.ReadKey();
+                                                            Home.HomePage();
+                                                        }
+                                                      
                                                     }
                                                 }
                                             }
