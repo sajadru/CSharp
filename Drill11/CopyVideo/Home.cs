@@ -8,28 +8,54 @@ namespace CopyVideo
 {
     class Home
     {
-       static int cursor = 1;
+       static int cursor = 8;
         public static void HomePage()
         {
             Console.CursorVisible = false;
             Drive d = new Drive();
             
-            Console.BackgroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.DarkCyan;
+            Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
-            Console.SetCursorPosition(4, 1);
+            Console.SetCursorPosition(50, 8);
+            if (cursor == Console.CursorTop)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
             Console.WriteLine("Copy This Session");
-            Console.SetCursorPosition(4, 3);
+            Console.ForegroundColor = ConsoleColor.Black;
+          
+            Console.SetCursorPosition(50, 11);
+            if (cursor == Console.CursorTop)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            Console.WriteLine("Special Copy");
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(50, 14);
+            if (cursor == Console.CursorTop)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
             Console.WriteLine("Select Source Folder");
-            Console.SetCursorPosition(4, 5);
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.SetCursorPosition(50, 17);
+            if (cursor == Console.CursorTop)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
             Console.WriteLine("Exit");
+            Console.ForegroundColor = ConsoleColor.Black;
             Console.BackgroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(1, cursor);
+            Console.SetCursorPosition(47, cursor);
             Console.Write("  ");
+
+    
             ConsoleKey key = Console.ReadKey().Key;
             switch (key)
             {
                 case ConsoleKey.Enter:
-                    if (Console.CursorTop == 1)
+                    if (Console.CursorTop == 8)
                     {
                        
                         if (File.Exists("CopyLocation.txt"))
@@ -39,6 +65,7 @@ namespace CopyVideo
                             DirectoryInfo[] direct = di.GetDirectories();
                             FileInfo[] f = di.GetFiles();
                             DriveInfo[] drive = DriveInfo.GetDrives();
+                            string[] show = new string[drive.Length];
                             for (int i = 0; i < drive.Length; i++)
                             {
                                 if (drive[i].IsReady)
@@ -47,6 +74,7 @@ namespace CopyVideo
                                     {
                                         for (int j = 0; j < f.Length; j++)
                                         {
+                                            
                                             if ((f[j].LastWriteTime).Year == DateTime.Now.Year)
                                             {
                                                 if ((f[j].LastWriteTime).Month == DateTime.Now.Month)
@@ -55,26 +83,24 @@ namespace CopyVideo
                                                     {
                                                         if (f[j].Length< drive[i].TotalFreeSpace)
                                                         {
+                                                            double a = drive[i].TotalFreeSpace;
                                                             File.Copy(Convert.ToString(f[j].FullName), $"{Convert.ToString(drive[i])}" +
                                                                                                                       $"\\{f[j].Name}", true);
-
-                                                            Console.Clear();
-                                                            Console.SetCursorPosition(48, 13);
-                                                            Console.ForegroundColor = ConsoleColor.Green;
-                                                            Console.WriteLine("Transfer successfully :)");
-                                                            Console.ForegroundColor = ConsoleColor.Gray;
-                                                            Console.ReadKey();
-                                                            Home.HomePage();
-                                                        }
-                                                        else
-                                                        {
-                                                            Console.Clear();
-                                                            Console.SetCursorPosition(45, 13);
-                                                            Console.ForegroundColor = ConsoleColor.Red;
-                                                            Console.WriteLine("Storage space is not enough!");
-                                                            Console.ForegroundColor = ConsoleColor.Gray;
-                                                            Console.ReadKey();
-                                                            Home.HomePage();
+                                                            if (a > drive[i].TotalFreeSpace)
+                                                            {
+                                                                show[i] = drive[i].Name+" Transfer Successfuly";
+                                                            }
+                                                            else
+                                                            {
+                                                                if (f[j].Length > drive[i].TotalFreeSpace)
+                                                                {
+                                                                    show[i] = drive[i].Name+" Not Enough Storage Space";
+                                                                }
+                                                                else
+                                                                {
+                                                                    show[i] = drive[i].Name+" Transfer Failed";
+                                                                }
+                                                            }
                                                         }
                                                       
                                                     }
@@ -84,6 +110,30 @@ namespace CopyVideo
                                     }
                                 }
                             }
+                            string finalshow ="\n\n\n\n\n\n\n\n";
+                            for (int i = 0; i < drive.Length; i++)
+                            {
+                                if (drive[i].IsReady)
+                                {
+                                    if (Convert.ToString(drive[i].DriveType) == "Removable")
+                                    {
+                                        finalshow += $"\t\t\t\t\t\t{show[i]}\n\n\n";
+                                        Console.Clear();
+                                     
+                                    }
+
+                                }
+                                
+                            }
+                            Console.BackgroundColor = ConsoleColor.Gray;
+                            Console.Clear();
+
+                            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                           
+                            Console.WriteLine(finalshow);
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.ReadKey();
+                            Home.HomePage();
                         }
                         else
                         {
@@ -100,7 +150,11 @@ namespace CopyVideo
                             HomePage();
                         }
                     }
-                    if (Console.CursorTop == 3)
+                    if (Console.CursorTop == 11)
+                    {
+                        Special.Copy();
+                    }
+                    if (Console.CursorTop == 14)
                     {
                         d.ShowDrives();
                     }
@@ -110,23 +164,23 @@ namespace CopyVideo
                     }
                     break;
                 case ConsoleKey.UpArrow:
-                    if (Console.CursorTop == 1)
+                    if (Console.CursorTop == 8)
                     {
-                        cursor = 5;
+                        cursor = 17;
                     }
                     else
                     {
-                        cursor -= 2;
+                        cursor -= 3;
                     }
                     break;
                 case ConsoleKey.DownArrow:
-                    if (Console.CursorTop == 5)
+                    if (Console.CursorTop == 17)
                     {
-                        cursor = 1;
+                        cursor = 8;
                     }
                     else
                     {
-                        cursor += 2;
+                        cursor += 3;
                     }
                     break;
             }
